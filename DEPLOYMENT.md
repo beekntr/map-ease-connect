@@ -17,7 +17,7 @@ Set these in your Vercel dashboard:
 ```bash
 VITE_API_BASE_URL=https://identity.akshatmehta.com
 VITE_APP_NAME="MapEase Connect"
-VITE_APP_URL=https://your-app.vercel.app
+VITE_APP_URL=https://mapease.kshitijsinghbhati.in
 ```
 
 ## Deployment Steps
