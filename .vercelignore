@@ -1,0 +1,18 @@
+# Vercel
+.vercel
+
+# Production
+dist/
+
+# Build
+build/
+
+# Environment variables
+.env.local
+.env.production
+
+# Cache
+.vite
+
+# Logs
+*.log

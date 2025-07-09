@@ -19,4 +19,23 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: ['@radix-ui/react-avatar', '@radix-ui/react-label', '@radix-ui/react-toast'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+    sourcemap: false,
+  },
+  preview: {
+    port: 4173,
+    host: true,
+  },
 }));

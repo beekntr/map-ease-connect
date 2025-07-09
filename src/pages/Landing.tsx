@@ -1,10 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google OAuth with domain restriction
-    console.log("Google OAuth login");
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuthAction = () => {
+    if (user) {
+      // User is logged in, go to dashboard
+      navigate('/dashboard');
+    } else {
+      // User is not logged in, go to auth page
+      navigate('/auth');
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -17,9 +31,22 @@ const Landing = () => {
               <div className="h-8 w-8 bg-gradient-primary rounded-lg"></div>
               <h1 className="text-xl font-bold">MapEase</h1>
             </div>
-            <Button variant="gradient" onClick={handleGoogleLogin}>
-              Sign in with Google
-            </Button>
+            <div className="flex items-center space-x-4">
+              {user ? (
+                <>
+                  <span className="text-sm text-muted-foreground">
+                    Welcome, {user.name}
+                  </span>
+                  <Button onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={handleAuthAction}>
+                  Sign In
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -35,10 +62,10 @@ const Landing = () => {
             with our comprehensive multi-tenant platform.
           </p>
           <div className="flex gap-4 justify-center">
-            <Button size="lg" variant="gradient" onClick={handleGoogleLogin}>
-              Get Started
+            <Button onClick={handleAuthAction}>
+              {user ? 'Go to Dashboard' : 'Get Started'}
             </Button>
-            <Button size="lg" variant="outline">
+            <Button>
               Learn More
             </Button>
           </div>
