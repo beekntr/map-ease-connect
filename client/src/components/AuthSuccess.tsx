@@ -8,26 +8,52 @@ const AuthSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { checkAuthStatus } = useAuth();
+  const { login } = useAuth();
   const [isProcessing, setIsProcessing] = useState(true);
   const token = searchParams.get('token');
+  const redirectUrl = searchParams.get('redirect');
 
   useEffect(() => {
     const handleAuth = async () => {
       if (token) {
-        localStorage.setItem('authToken', token);
-        
-        // Refresh auth status to get user data
-        await checkAuthStatus();
-        
-        toast({
-          title: "Authentication Successful!",
-          description: "You have been successfully logged in.",
-        });
+        try {
+          // Use the auth context login method to handle the token
+          await login(token);
+          
+          toast({
+            title: "Authentication Successful!",
+            description: "You have been successfully logged in.",
+          });
 
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
+          // Redirect after successful login
+          setTimeout(() => {
+            if (redirectUrl) {
+              // Validate redirect URL for security
+              try {
+                const url = new URL(redirectUrl, window.location.origin);
+                const allowedOrigins = [window.location.origin, 'https://identity.akshatmehta.com'];
+                if (allowedOrigins.includes(url.origin)) {
+                  window.location.href = redirectUrl;
+                  return;
+                }
+              } catch (error) {
+                console.error('Invalid redirect URL:', error);
+              }
+            }
+            // Default redirect to dashboard
+            navigate('/dashboard');
+          }, 2000);
+        } catch (error: any) {
+          console.error('Authentication error:', error);
+          toast({
+            title: "Authentication Error",
+            description: error.message || "Failed to process authentication token.",
+            variant: "destructive",
+          });
+          setTimeout(() => {
+            navigate('/auth');
+          }, 2000);
+        }
       } else {
         toast({
           title: "Authentication Error",
@@ -42,7 +68,7 @@ const AuthSuccess = () => {
     };
 
     handleAuth();
-  }, [token, navigate, toast, checkAuthStatus]);
+  }, [token, redirectUrl, navigate, toast, login]);
 
   return (
     <div className="min-h-screen bg-gradient-secondary flex items-center justify-center p-4">

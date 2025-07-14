@@ -9,7 +9,6 @@ interface AuthContextType {
   login: (token: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuthStatus: () => Promise<void>;
-  getSSOLoginUrl: (redirectUrl?: string) => Promise<string>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -92,7 +91,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     login,
     logout,
     checkAuthStatus,
-    getSSOLoginUrl,
   };
 
   return (
