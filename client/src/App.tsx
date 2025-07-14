@@ -7,8 +7,10 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Landing from "./pages/Landing";
+import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import TenantDashboard from "./pages/TenantDashboard";
+import UserDashboard from "./pages/UserDashboard";
 import EventRegistration from "./pages/EventRegistration";
 import MapViewer from "./pages/MapViewer";
 import QRDemo from "./pages/QRDemo";
@@ -38,18 +40,34 @@ const App = () => (
             />
             <Route path="/auth/success" element={<AuthSuccess />} />
             <Route 
-              path="/admin-dashboard" 
+              path="/dashboard" 
               element={
                 <ProtectedRoute>
-                  <AdminDashboard />
+                  <Dashboard />
                 </ProtectedRoute>
               } 
             />
             <Route 
-              path="/dashboard" 
+              path="/user-dashboard" 
+              element={
+                <ProtectedRoute>
+                  <UserDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tenant-dashboard" 
               element={
                 <ProtectedRoute>
                   <TenantDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin-dashboard" 
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
                 </ProtectedRoute>
               } 
             />
