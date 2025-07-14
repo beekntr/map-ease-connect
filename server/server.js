@@ -49,7 +49,9 @@ app.use(cors({
       `http://localhost:3000`,
       `http://localhost:3001`,
       `http://localhost:5000`,
-      'https://identity.akshatmehta.com'
+      'https://identity.akshatmehta.com',
+      'https://mapease.kshitijsinghbhati.in',
+      'https://www.mapease.kshitijsinghbhati.in'
     ];
     
     // Check if origin is a subdomain
